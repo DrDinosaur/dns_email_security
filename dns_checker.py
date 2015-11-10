@@ -69,7 +69,6 @@ with open(domains) as domain_list:
         except dns.exception.Timeout:
             cprint("_dmarc." + domain + " timed out", "red")
 
-domain_list.close()
 
 nospf_file = open('nospf_domains.txt', 'w')
 nodmarc_file = open('nodmarc_domains.txt', 'w')
