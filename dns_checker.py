@@ -9,7 +9,9 @@ num_of_active_domains = 0
 
 print "SPF and DMARC Checker" + "\n" + "By: Dillon Korman" + "\n"
 
-with open('domains.txt') as domain_list:
+domains = raw_input("Enter the name of domain list: ")
+
+with open(domains) as domain_list:
     for domain in domain_list:
         domain = domain.strip()
         dmarc_nonexistent_domain = set()
