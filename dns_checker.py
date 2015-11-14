@@ -1,38 +1,40 @@
 #!/usr/bin/python
 import dns.resolver
 import dns.exception
-from termcolor import cprint 
+from termcolor import cprint
 
-nospf = list()  
-nodmarc = list() 
-num_of_active_domains = 0 
+nospf = list()
+nodmarc = list()
+num_of_active_domains = 0
 
 print "SPF and DMARC Checker" + "\n" + "By: Dillon Korman" + "\n"
 
-with open('domains.txt') as domain_list:
+domains = raw_input("Enter the name of domain list: ")
+
+with open(domains) as domain_list:
     for domain in domain_list:
         domain = domain.strip()
         dmarc_nonexistent_domain = set()
         try:
-            answers = dns.resolver.query(domain, 'TXT')  
-            spf_records = set() 
+            answers = dns.resolver.query(domain, 'TXT')
+            spf_records = set()
             just_txt_records = set()
             no_txt_records = set()
             nonexistent_domain = set()
-            for rdata in answers:  
+            for rdata in answers:
                 for record in rdata.strings:
                     if record.startswith("v=spf1") is True:
-                        spf_records.add(record) 
+                        spf_records.add(record)
                         cprint(domain + " has an SPF record.", "green")
-                        print "Its record is %s" % record  
+                        print "Its record is %s" % record
                     else:
-                        just_txt_records.add(record) 
-            if just_txt_records and not spf_records: 
+                        just_txt_records.add(record)
+            if just_txt_records and not spf_records:
                 nospf.append(domain)
                 cprint(domain + " does not have an SPF record, only other TXT records.", "red")
-            num_of_active_domains += 1 
+            num_of_active_domains += 1
         except dns.resolver.NoAnswer:
-            cprint(domain + " does not have any TXT records.", "red")  
+            cprint(domain + " does not have any TXT records.", "red")
             nospf.append(domain)
             no_txt_records.add(domain)
             num_of_active_domains += 1
@@ -67,12 +69,13 @@ with open('domains.txt') as domain_list:
         except dns.exception.Timeout:
             cprint("_dmarc." + domain + " timed out", "red")
 
-nospf_file = open('nospf_domains.txt', 'w')  
+
+nospf_file = open('nospf_domains.txt', 'w')
 nodmarc_file = open('nodmarc_domains.txt', 'w')
 
 print "\n" + "Here were the domains with no SPF records:"
-for nospf_domain in nospf:  
-    print nospf_domain 
+for nospf_domain in nospf:
+    print nospf_domain
     nospf_file.write("%s\n" % nospf_domain)
 nospf_file.close()
 
