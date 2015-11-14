@@ -11,7 +11,7 @@ This script checks a list of domains for DNS TXT records that email security sys
 `python dns_checker.py`
 
 ## Information
-This currently requires a list of domains as domains.txt in the current directory.  
+The script prompts you for the file of domains to open. 
 This supports SPF and DMARC from TXT records, but it does not check the separate SPF record.  
 DKIM is not supported because it requires the knowledge of an unknown selector.
 
