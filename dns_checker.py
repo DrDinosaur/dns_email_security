@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 import dns.resolver
 import dns.exception
 from termcolor import cprint
@@ -7,9 +7,9 @@ nospf = list()
 nodmarc = list()
 num_of_active_domains = 0
 
-print "SPF and DMARC Checker" + "\n" + "By: Dillon Korman" + "\n"
+print("SPF and DMARC Checker" + "\n" + "By: Dillon Korman" + "\n")
 
-domains = raw_input("Enter the name of domain list: ")
+domains = input("Enter the name of domain list: ")
 
 with open(domains) as domain_list:
     for domain in domain_list:
@@ -26,7 +26,7 @@ with open(domains) as domain_list:
                     if record.startswith("v=spf1") is True:
                         spf_records.add(record)
                         cprint(domain + " has an SPF record.", "green")
-                        print "Its record is %s" % record
+                        print("Its record is %s" % record)
                     else:
                         just_txt_records.add(record)
             if just_txt_records and not spf_records:
@@ -54,7 +54,7 @@ with open(domains) as domain_list:
                     for record in rdata.strings:
                         if record.startswith("v=DMARC1"):
                             cprint(domain + " does have a DMARC record.", "green")
-                            print "Its record is %s" % record
+                            print("Its record is %s" % record)
                         else:
                             nodmarc.append(domain)
             elif not dmarc_nonexistent_domain:
@@ -69,25 +69,26 @@ with open(domains) as domain_list:
         except dns.exception.Timeout:
             cprint("_dmarc." + domain + " timed out", "red")
 
-
 nospf_file = open('nospf_domains.txt', 'w')
 nodmarc_file = open('nodmarc_domains.txt', 'w')
 
-print "\n" + "Here were the domains with no SPF records:"
+print("\n" + "Here were the domains with no SPF records:")
 for nospf_domain in nospf:
-    print nospf_domain
+    print(nospf_domain)
     nospf_file.write("%s\n" % nospf_domain)
 nospf_file.close()
 
-print "\n" + "Here were the domains with no DMARC records:"
+print("\n" + "Here were the domains with no DMARC records:")
 for nodmarc_domain in nodmarc:
-    print nodmarc_domain
+    print(nodmarc_domain)
     nodmarc_file.write("%s\n" % nodmarc_domain)
 nodmarc_file.close()
 
 spf_percentage = str(format(float((len(nospf)) / float(num_of_active_domains) * 100.0), '.2f'))
 dmarc_percentage = str(format(float((len(nodmarc)) / float(num_of_active_domains)) * 100.0, '.2f'))
-print "\n" + "This means that out of " + str(num_of_active_domains) + " active domains, " + str(len(nospf)) + " of them did not have SPF records." \
-    + " That's " + spf_percentage + "%."
-print "\n" + "This means that out of " + str(num_of_active_domains) + " active domains, " + str(len(nodmarc)) + " of them did not have DMARC records." \
-    + " That's " + dmarc_percentage + "%."
+print("\n" + "This means that out of " + str(num_of_active_domains) + " active domains, " + str(
+    len(nospf)) + " of them did not have SPF records." \
+      + " That's " + spf_percentage + "%.")
+print("\n" + "This means that out of " + str(num_of_active_domains) + " active domains, " + str(
+    len(nodmarc)) + " of them did not have DMARC records." \
+      + " That's " + dmarc_percentage + "%.")
