@@ -32,8 +32,8 @@ optional arguments:
 ```
 
 ## Information
-This program requires Python 3.
-This program has a perfect score with pylint. 
+This program requires Python 3.  
+This program has a perfect score with pylint.  
 This supports SPF and DMARC from TXT records, but it does not check the separate SPF record.  
 DKIM is not supported because it requires the knowledge of an unknown selector.
 
