@@ -5,6 +5,8 @@ This script checks a list of domains for DNS TXT records that email security sys
 
 ## Install
 `pip install dnspython termcolor`
+## Install (Python3)
+`pip3.x install dnspython3 termcolor`
 
 ## Usage
 
@@ -21,4 +23,3 @@ DKIM is not supported because it requires the knowledge of an unknown selector.
 * Add some DKIM support with common selectors
 * Shorten or optimize code
 * Use multithreading
-* Update to Python 3
