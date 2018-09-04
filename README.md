@@ -41,4 +41,5 @@ DKIM is not supported because it requires the knowledge of an unknown selector.
 * Add timeout value support
 * Download the domain lists 
 * Add some DKIM support with common selectors
-* Use multithreading
+* Use multithreading 
+* Add tests
